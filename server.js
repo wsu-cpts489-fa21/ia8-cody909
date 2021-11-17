@@ -16,7 +16,9 @@ const buildPath = (PORT === process.env.PORT) ?
   new URL('client/build/', import.meta.url).pathname :
   (new URL('client/build/', import.meta.url).pathname).substring(1);
 import mongoose from 'mongoose';
-const connectStr = 'mongodb://localhost:27017/appdb';
+import { env } from 'process';
+//const connectStr = 'mongodb://localhost:27017/appdb';
+const connectStr = 'mongodb+srv://dbAdmin:Yf7aTKSglYNTsA6L@speedscore.rmqzv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
 
 //////////////////////////////////////////////////////////////////////////
