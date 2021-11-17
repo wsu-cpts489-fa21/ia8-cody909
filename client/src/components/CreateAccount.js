@@ -142,7 +142,7 @@ class CreateAccount extends React.Component {
     renderErrorBox = () => {
         if (this.state.emailValid && this.state.passwordValid &&
             this.state.repeatPasswordValid && this.state.securityQuestionValid &&
-            this.state.securityAnswerValid) {
+            this.state.securityAnswerValid && this.state.accountValid) {
             return null;
         }
         return (
