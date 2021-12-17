@@ -13,8 +13,8 @@ import roundRoute from './routes/roundRoutes.js';
 const PORT = process.env.PORT || process.env.LOCAL_PORT;
 const app = express(); //Instantiate express app
 const buildPath = (PORT === process.env.PORT) ?
-  new URL('client/build/', import.meta.url).pathname :
-  (new URL('client/build/', import.meta.url).pathname).substring(1);
+  new URL('/client/build/', import.meta.url).pathname :
+  (new URL('/client/build/', import.meta.url).pathname).substring(1);
 import mongoose from 'mongoose';
 const connectStr = 'mongodb://localhost:27017/appdb';
 
