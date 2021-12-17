@@ -70,7 +70,6 @@ roundRoute.get('/rounds/:userId', async(req, res) => {
   
 //UPDATE round route: Updates a specific round for a given user
 //in the users collection (PUT)
-//TO DO: Implement this route
 roundRoute.put('/rounds/:roundId',  async (req, res, next) => {
   console.log("in /rounds update route (PUT) with roundId = " + JSON.stringify(req.params) +
     " and body = " + JSON.stringify(req.body));
@@ -110,6 +109,21 @@ roundRoute.put('/rounds/:roundId',  async (req, res, next) => {
 
 //DELETE round route: Deletes a specific round for a given user
 //in the users collection (DELETE)
-//TO DO: Implement this route
+roundRoute.delete('/rounds/:roundID', async(req, res) => {
+  console.log("in /rounds route (DELETE) with ID = " + JSON.stringify(req.params.roundID));
+
+  try {
+    let status = await User.updateOne({"rounds._id": req.params.roundID},
+                                      {$pull:{"rounds":{"_id": req.params.roundID}}});
+    if (!status) {
+      return res.status(400).send("No round was found with the given ID");
+    } else {
+      return res.status(200).send("Round ID=" +req.params.userId + " was successfully deleted.");
+    }
+  } catch (err) {
+    return res.status(400).send("Unexpected error occurred when looking " +
+      "up user in database: " + err);
+  }
+});
 
 export default roundRoute;
