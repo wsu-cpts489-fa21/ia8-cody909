@@ -391,34 +391,34 @@ export default function App() {
     }
   };
 
-  // // deletes a speedgolf round
-  // const deleteRound = async (id) => {
-  //   // delete from db
-  //   const response = await API.deleteRound(id);
-  //   console.log(response);
-  //   //delete from local storage
-  //   const newRounds = [...userData.rounds];
-  //   let r;
-  //   for (r = 0; r < newRounds.length; ++r) {
-  //     if (newRounds[r]._id === id) {
-  //       break;
-  //     }
-  //   }
-  //   newRounds.splice(r, 1);
-  //   const newUserData = {
-  //     accountData: userData.accountData,
-  //     identityData: userData.identityData,
-  //     speedgolfData: userData.speedgolfData,
-  //     rounds: newRounds,
-  //     roundsLogged: userData.roundsLogged,
-  //   };
-  //   localStorage.setItem(
-  //     newUserData.accountData.id,
-  //     JSON.stringify(newUserData)
-  //   );
-  //   //setState({userData: newUserData});
-  //   setUserData(newUserData);
-  // };
+  // deletes a speedgolf round
+  const deleteRound = async (id) => {
+    // delete from db
+    const response = await API.deleteRound(id);
+    console.log(response);
+    //delete from local storage
+    const newRounds = [...userData.rounds];
+    let r;
+    for (r = 0; r < newRounds.length; ++r) {
+      if (newRounds[r]._id === id) {
+        break;
+      }
+    }
+    newRounds.splice(r, 1);
+    const newUserData = {
+      accountData: userData.accountData,
+      identityData: userData.identityData,
+      speedgolfData: userData.speedgolfData,
+      rounds: newRounds,
+      roundsLogged: userData.roundsLogged,
+    };
+    localStorage.setItem(
+      newUserData.accountData.id,
+      JSON.stringify(newUserData)
+    );
+    //setState({userData: newUserData});
+    setUserData(newUserData);
+  };
 
   return (
     <>
@@ -468,7 +468,7 @@ export default function App() {
                   rounds={userData.rounds}
                   addRound={addRound}
                   updateRound={updateRound}
-                  //deleteRound={deleteRound}
+                  deleteRound={deleteRound}
                   modalOpen={modalOpen}
                   toggleModalOpen={toggleModalOpen}
                   menuOpen={menuOpen}
@@ -492,7 +492,6 @@ export default function App() {
             }[mode]
           }
         </>
-      }
     </>
   );
 }
