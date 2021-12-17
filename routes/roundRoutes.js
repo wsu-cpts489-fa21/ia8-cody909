@@ -71,6 +71,42 @@ roundRoute.get('/rounds/:userId', async(req, res) => {
 //UPDATE round route: Updates a specific round for a given user
 //in the users collection (PUT)
 //TO DO: Implement this route
+roundRoute.put('/rounds/:roundId',  async (req, res, next) => {
+  console.log("in /rounds update route (PUT) with roundId = " + JSON.stringify(req.params) +
+    " and body = " + JSON.stringify(req.body));
+  if (!req.params.hasOwnProperty("roundId"))  {
+    return res.status(400).send("rounds/ PUT request formulated incorrectly. It must contain 'roundId' as parameter.");
+  }
+  const validProps = ['date','course','type','holes','strokes','minutes','seconds','notes']
+  //checking for invalid props
+  for (const bodyProp in req.body) {
+    if(!validProps.includes(bodyProp)){
+        return res.status(400).send(
+            "users/ PUT request formulated incorrectly. Invalid props:" + bodyProp +
+            "\nOnly the following props are allowed in user data: " +
+            "'date','course','type','holes','strokes','minutes','seconds','notes'");
+    }
+  }
+  const temp = {}
+  for(const bodyProp in req.body){
+    let hold = "rounds.$." + bodyProp;
+    temp[hold] = req.body[bodyProp];
+  }
+  try {
+    let status = await User.updateOne({"rounds._id": req.params.roundId},{$set: temp});
+    if (status.modifiedCount != 1) { //account could not be found
+        console.log("status: " + JSON.stringify(status));
+        res.status(404).send("Account not updated. Either no account with that id"
+            + " exists, or no value in the account was changed.");
+    } else {
+        res.status(200).send("Round "+ 
+            " successfully updated.")
+    }
+  } catch (err) {
+      res.status(400).send("Unexpected error occurred when updating user in database: " 
+      + err);
+  }
+});
 
 //DELETE round route: Deletes a specific round for a given user
 //in the users collection (DELETE)
